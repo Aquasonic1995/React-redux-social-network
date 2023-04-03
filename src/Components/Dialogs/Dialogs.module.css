@@ -1,0 +1,5 @@
+
+.dialogs{background: cornflowerblue; display:grid; grid-template-columns: 3fr 10fr;}
+.dialogs a{color:white;}
+.dialogs a:focus{color:red;}
+.messages {}

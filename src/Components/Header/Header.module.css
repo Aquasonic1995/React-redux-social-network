@@ -1,0 +1,4 @@
+.header {background-color: limegreen;
+    grid-area: header;
+}
+.header img{width:50px;}

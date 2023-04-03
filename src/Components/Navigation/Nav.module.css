@@ -1,0 +1,9 @@
+.navigation {background-color: limegreen;
+    grid-area: nav;
+}
+.settings{color:gold}
+
+.navigation a{color:white;}
+
+
+.navigation a:focus{color:red;}
