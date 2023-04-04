@@ -10,7 +10,7 @@ let initialState = {
     newPostText: ''
 }
 const profileReducer = (state: any = initialState, action: any) => {
-    debugger;
+
     switch (action.type) {
         case ADD_POST :{
 

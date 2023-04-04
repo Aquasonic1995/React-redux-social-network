@@ -4,8 +4,9 @@ import './App.css';
 import Header from "./Components/Header/Header";
 import Nav from "./Components/Navigation/Nav";
 import Profile from "./Components/Profile/Profile";
-import {Route, Routes, BrowserRouter} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import DialogsContainer from "./Components/Dialogs/MessageItem/DialogsContainer";
+import UsersContainer from "./Components/Users/UsersContainer";
 
 
 function App(props:any) {
@@ -18,6 +19,7 @@ function App(props:any) {
                     <Routes>
                         <Route path="/profile/*" element={<Profile   />}/>
                         <Route path="/dialogs/*" element={<DialogsContainer  />}/>
+                        <Route path="/users/*" element={<UsersContainer  />}/>
                     </Routes>
 
                 </div>
