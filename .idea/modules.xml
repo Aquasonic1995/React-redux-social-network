@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../56.JS/.idea/56.JS.iml" filepath="$PROJECT_DIR$/../56.JS/.idea/56.JS.iml" />
       <module fileurl="file://$PROJECT_DIR$/../react-way-of-samurai-5eb9a7ad1da278f3d73a704a9eca97f6b2d3b556/.idea/react-way-of-samurai-5eb9a7ad1da278f3d73a704a9eca97f6b2d3b556.iml" filepath="$PROJECT_DIR$/../react-way-of-samurai-5eb9a7ad1da278f3d73a704a9eca97f6b2d3b556/.idea/react-way-of-samurai-5eb9a7ad1da278f3d73a704a9eca97f6b2d3b556.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/untitled.iml" filepath="$PROJECT_DIR$/.idea/untitled.iml" />
     </modules>

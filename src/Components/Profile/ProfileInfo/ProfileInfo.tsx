@@ -1,11 +1,18 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
 import beach from "../../../images/beach.jpg"
-const ProfileInfo = () => {
+import Preloader from "../../common/Preloader/Preloader";
+const ProfileInfo = (props:any) => {   debugger;
+    if (!props.profile) {
+        return <Preloader />
+    }
+
   return(
       <div className={s.profileInfo}>
         <img src={beach} alt={s.beach}/>
-        <div className={s.avatar}>Avatar</div>
+        <div className={s.avatar}>
+            <img src={props.profile.photos.large} />
+            Avatar</div>
       </div>
   )
 }
