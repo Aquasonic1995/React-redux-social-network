@@ -2,7 +2,8 @@ import React from "react";
 import s from "./ProfileInfo.module.css"
 import beach from "../../../images/beach.jpg"
 import Preloader from "../../common/Preloader/Preloader";
-const ProfileInfo = (props:any) => {   debugger;
+import ProfileStatus from "./ProfileStatus"
+const ProfileInfo = (props:any) => {
     if (!props.profile) {
         return <Preloader />
     }
@@ -13,6 +14,7 @@ const ProfileInfo = (props:any) => {   debugger;
         <div className={s.avatar}>
             <img src={props.profile.photos.large} />
             Avatar</div>
+          <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
       </div>
   )
 }

@@ -1,4 +1,4 @@
-import logo from "../../images/Logo.png";
+import logo from "C:/Users/к/WebstormProjects/untitled/src/images/Logo.png";
 import React from "react";
 import s from "./Header.module.css"
 import {NavLink} from "react-router-dom";
