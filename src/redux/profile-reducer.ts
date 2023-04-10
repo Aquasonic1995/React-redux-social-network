@@ -4,6 +4,7 @@ const ADD_POST = 'ADD_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
+
 let initialState = {
     PostsData: [
         {id: "1", name: "Post1", likesCount: 25000000},
