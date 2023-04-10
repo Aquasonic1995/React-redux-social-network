@@ -2,42 +2,53 @@ import s from "./Dialogs.module.css"
 import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./MessageItem/MessageItem";
-import {Navigate} from "react-router-dom";
-import {Field, reduxForm} from "redux-form";
-const Dialogs = (props: any) => {
-    let state = props.dialogs;
-    let DialogsData = state.DialogsData;
-    let MessagesData = state.MessagesData;
-    let dialogs = DialogsData.map((d: { id: string; name: string; }) => <DialogItem name={d.name} id={d.id}/>)
-    let messages = MessagesData.map((m: { id: string; name: string; }) => <MessageItem name={m.name} id={m.id}/>)
+import { Navigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-    let addNewMessage = (values:any) => {
-        props.sendMessage(values.newMessageBody);
-    }
-    if (!props.isAuth) return <Navigate to={"/login"} /> ;
+type DialogsProps = {
+    dialogs: {
+        DialogsData: { id: string; name: string; }[];
+        MessagesData: { id: string; name: string; }[];
+    };
+    sendMessage: (newMessageBody: string) => void;
+    isAuth: boolean;
+};
 
+type DialogsFormValues = {
+    newMessageBody: string;
+};
+
+const Dialogs: React.FC<DialogsProps> = (props) => {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<DialogsFormValues>();
+    const { dialogs, sendMessage, isAuth } = props;
+
+    const onSubmit: SubmitHandler<DialogsFormValues> = (data) => {
+        sendMessage(data.newMessageBody);
+        reset();
+    };
+
+    const dialogItems = dialogs.DialogsData.map((d: { id: string; name: string; }) => <DialogItem key={d.id} name={d.name} id={d.id} />);
+    const messageItems = dialogs.MessagesData.map((m: { id: string; name: string; }) => <MessageItem key={m.id} name={m.name} id={m.id} />);
+    if (!isAuth) return <Navigate to={"/login"} />;
     return (
         <div className={s.dialogs}>
             <div className={s.dialogues}>
-                {dialogs}
+                {dialogItems}
             </div>
             <div className={s.messages}>Messages
-                {messages}
+                {messageItems}
             </div>
-            <AddMessageFormRedux onSubmit={addNewMessage} />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <textarea {...register("newMessageBody", { required: true })} placeholder="Enter your message" />
+                    {errors.newMessageBody && <span>This field is required</span>}
+                </div>
+                <div>
+                    <button type="submit">Send</button>
+                </div>
+            </form>
         </div>
     )
 }
-const AddMessageForm = (props:any) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component="textarea" name="newMessageBody" placeholder="Enter your message" />
-            </div>
-            <div><button>Send</button></div>
-        </form>
-    )
-}
 
-const AddMessageFormRedux = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
 export default Dialogs;
