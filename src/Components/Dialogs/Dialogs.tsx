@@ -4,12 +4,11 @@ import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./MessageItem/MessageItem";
 import { Navigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {DialogType, MessageType} from "../../redux/dialogs-reducer";
 
 type DialogsProps = {
-    dialogs: {
-        DialogsData: { id: string; name: string; }[];
-        MessagesData: { id: string; name: string; }[];
-    };
+        dialogsData: Array<DialogType>;
+        messagesData:  Array<MessageType>;
     sendMessage: (newMessageBody: string) => void;
     isAuth: boolean;
 };
@@ -20,15 +19,15 @@ type DialogsFormValues = {
 
 const Dialogs: React.FC<DialogsProps> = (props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<DialogsFormValues>();
-    const { dialogs, sendMessage, isAuth } = props;
+    const { dialogsData, sendMessage, isAuth, messagesData } = props;
 
     const onSubmit: SubmitHandler<DialogsFormValues> = (data) => {
         sendMessage(data.newMessageBody);
         reset();
     };
 
-    const dialogItems = dialogs.DialogsData.map((d: { id: string; name: string; }) => <DialogItem key={d.id} name={d.name} id={d.id} />);
-    const messageItems = dialogs.MessagesData.map((m: { id: string; name: string; }) => <MessageItem key={m.id} name={m.name} id={m.id} />);
+    const dialogItems = dialogsData.map((d: { id: string; name: string; }) => <DialogItem key={d.id} name={d.name} id={d.id} />);
+    const messageItems = messagesData.map((m: { id: string; name: string; }) => <MessageItem key={m.id} name={m.name} id={m.id} />);
     if (!isAuth) return <Navigate to={"/login"} />;
     return (
         <div className={s.dialogs}>

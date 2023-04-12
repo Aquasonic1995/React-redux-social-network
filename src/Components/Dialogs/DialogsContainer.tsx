@@ -1,25 +1,51 @@
 import React from "react";
 import Dialogs from "./Dialogs";
-import {sendMessageActionCreator} from "../../redux/dialogs-reducer";
-import {connect} from "react-redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {compose} from "redux";
+import { connect } from "react-redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
+import { RootStateType } from "../../redux/redux-store";
+import {DialogInitialStateType, DialogType, MessageType, sendMessageActionCreator} from "../../redux/dialogs-reducer";
 
 
-let mapStateToProps = (state: any) => {
-    return{
-       dialogs:state.dialog,
-    }
-}
-let mapDispatchToProps = (dispatch:any) => {
+type MapStateToPropsType = {
+    dialogsData: Array<DialogType>;
+    messagesData: Array<MessageType>;
+};
+
+
+type MapDispatchToPropsType = {
+    sendMessage: (newMessageBody: string) => void;
+};
+
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
-        sendMessage: (newMessageBody:any) => {
+        dialogsData: state.dialog.dialogsData,
+        messagesData: state.dialog.messagesData
+
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        sendMessage: (newMessageBody: string) => {
             dispatch(sendMessageActionCreator(newMessageBody));
-        }
-    }
-}
+        },
+    };
+};
+
+
+type PropsFromHOC = {
+    isAuth: boolean;
+};
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type DialogsProps = MapDispatchToPropsType & MapStateToPropsType & PropsFromHOC;
+
+const DialogsContainer: React.FC<DialogsProps> = (props) => {
+    return <Dialogs {...props} />;
+};
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+    connector,
     withAuthRedirect
-)(Dialogs);
+)(DialogsContainer);

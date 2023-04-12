@@ -1,26 +1,46 @@
 import React from "react";
-import {addPostActionCreator} from "../../../redux/profile-reducer";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { RootStateType } from "../../../redux/redux-store";
+import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
 import NewPost from "./NewPost";
-import {connect} from "react-redux";
-import {withAuthRedirect} from "../../../hoc/withAuthRedirect"
-import {compose} from "redux";
+import { addPostActionCreator, ProfileInitialStateType } from "../../../redux/profile-reducer";
 
+type MapStateToPropsType = {
+    profile: ProfileInitialStateType;
+};
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
-        profile:state.profile
-    }
+        profile: state.profile,
+    };
+};
+
+type MapDispatchToPropsType = {
+    addPost: (newPostText: string) => void;
 }
-const mapDispatchToProps = (dispatch:any) => {
+
+const mapDispatchToProps = (dispatch: any): MapDispatchToPropsType => {
     return {
-        addPost: (newPostText:any) => {
+        addPost: (newPostText: string) => {
             dispatch(addPostActionCreator(newPostText));
-        }
-    }
-}
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
-)(NewPost)
+        },
+    };
+};
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-// export default NewPostContainer
+
+
+
+
+type PropsFromHOC = {
+    isAuth: boolean;
+};
+
+type PostProps = MapStateToPropsType & MapDispatchToPropsType & PropsFromHOC
+
+const NewPostContainer: React.FC<PostProps> = (props) => {
+    return <NewPost {...props} />;
+};
+
+export default compose(connector, withAuthRedirect)(NewPostContainer);

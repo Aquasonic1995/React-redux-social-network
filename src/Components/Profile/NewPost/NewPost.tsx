@@ -3,9 +3,9 @@ import Post from "../Posts/Post/Post"; // Importing the Post component
 import s from "../Profile.module.css"; // Importing the CSS module
 import { useForm, SubmitHandler } from "react-hook-form";
 import {Navigate} from "react-router-dom"; // Importing the useForm hook
-type PostProps = {
+export type PostProps = {
     profile:{
-        PostsData: { id: string; name: string; }[];
+        PostsData: { id: string; name: string; likesCount:number }[];
     }
     addPost: (newPostText: string) => void;
     isAuth: boolean;
@@ -13,14 +13,17 @@ type PostProps = {
 type PostFormValues = {
     newPostText: string
 };
-const NewPost: React.FC<PostProps> = (props: any) => {
+const NewPost: React.FC<PostProps> = (props) => {
     const { addPost, isAuth, profile} = props;
-    const { register, handleSubmit } = useForm<PostFormValues>(); // Destructuring the useForm hook and its methods.
+    const { register, handleSubmit, reset } = useForm<PostFormValues>(); // Destructuring the useForm hook and its methods.
     // const PostsData = props.profile.PostsData; // Getting the PostsData from props
     const posts = profile.PostsData.map((p: { id: string; name: string; likesCount: number; })=> <Post name={p.name} likesCount={p.likesCount}/>);
     // Mapping the PostsData to create Post components with their respective data
 
-    const onSubmit: SubmitHandler<PostFormValues> = data => addPost(data.newPostText);
+    const onSubmit: SubmitHandler<PostFormValues> = (data) => {
+        addPost(data.newPostText);
+        reset()
+    }
     if (!isAuth) return <Navigate to={"/login"} />;
     return (
         <>
