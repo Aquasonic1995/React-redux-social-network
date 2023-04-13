@@ -3,7 +3,7 @@ import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./MessageItem/MessageItem";
 import { Navigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
+import {useForm, SubmitHandler, SubmitErrorHandler} from "react-hook-form";
 import {DialogType, MessageType} from "../../redux/dialogs-reducer";
 
 type DialogsProps = {
@@ -25,6 +25,7 @@ const Dialogs: React.FC<DialogsProps> = (props) => {
         sendMessage(data.newMessageBody);
         reset();
     };
+    const onError :SubmitErrorHandler<DialogsFormValues>= errors => console.log(errors);
 
     const dialogItems = dialogsData.map((d: { id: string; name: string; }) => <DialogItem key={d.id} name={d.name} id={d.id} />);
     const messageItems = messagesData.map((m: { id: string; name: string; }) => <MessageItem key={m.id} name={m.name} id={m.id} />);
@@ -37,10 +38,11 @@ const Dialogs: React.FC<DialogsProps> = (props) => {
             <div className={s.messages}>Messages
                 {messageItems}
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
                 <div>
-                    <textarea {...register("newMessageBody", { required: true })} placeholder="Enter your message" />
-                    {errors.newMessageBody && <span>This field is required</span>}
+                    <textarea {...register("newMessageBody", { required:{ value:true, message :"ERROR"} , minLength: {value: 4, message: "Your message must be at least 4 characters long"} })} placeholder="Enter your message" />
+                    {errors.newMessageBody && <div className={s.error}>{errors.newMessageBody.message}</div>}
+
                 </div>
                 <div>
                     <button type="submit">Send</button>
