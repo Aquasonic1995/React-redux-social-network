@@ -38,10 +38,8 @@ let initialState: DialogInitialStateType = {
     ],
 };
 
-const dialogsReducer = (
-    state = initialState,
-    action: ActionType
-): DialogInitialStateType => {
+const dialogsReducer = (state = initialState, action: ActionType):
+    DialogInitialStateType => {
     switch (action.type) {
         case SEND_MESSAGE:
             let text = action.newMessageBody;

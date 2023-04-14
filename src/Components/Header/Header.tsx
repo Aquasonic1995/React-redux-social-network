@@ -6,7 +6,8 @@ const Header = (props:any) => {
     return( <header className={s.header}>
         <img src= {logo} alt="Logo"/>
         <div className={s.loginBlock}>
-            { props.isAuth ? props.login
+            { props.isAuth
+                ? <div>{props.login} - <button onClick={props.logout}>Log out</button> </div>
                 : <NavLink to={'/login'}>Login</NavLink> }
         </div>
     </header>  )
