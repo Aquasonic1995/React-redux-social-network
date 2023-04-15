@@ -8,20 +8,24 @@ import {RootStateType} from "../../redux/redux-store";
 type Props = {
     login: any;
     isAuth:boolean;
+    errorResponse:string
 };
 type MapStateToPropsType = {
     isAuth: boolean;
+    errorResponse:string
 };
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
+        errorResponse : state.auth.error
     };
 };
-const Login = ({login, isAuth}: Props) => {
+const Login = ({login, isAuth, errorResponse}: Props) => {
     type LoginFormValues = {
         email: string;
         password: string;
         rememberMe: boolean;
+
     };
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormValues>();
     const onSubmit: SubmitHandler<LoginFormValues> = data =>{
@@ -44,6 +48,7 @@ const Login = ({login, isAuth}: Props) => {
                             minLength: {value: 4, message: "Your message must be at least 4 characters long"}
                         })}  />
                         {errors.email && <div className={s.error}>{errors.email.message}</div>}
+
                     </div>
                     <div>
                         <input placeholder="Password" type="password" {...register("password",
@@ -58,7 +63,7 @@ const Login = ({login, isAuth}: Props) => {
                         <label htmlFor="rememberMe">remember me</label>
                     </div>
                     <div>
-                        <button type="submit">Login</button>
+                        <button type="submit">Login</button>{errorResponse.length > 0 && <div className={s.error}>{errorResponse}</div>}
                     </div>
                 </form>
             </div>
