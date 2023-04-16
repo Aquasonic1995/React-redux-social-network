@@ -5,7 +5,7 @@ export const setAuthUserData = (userId:any, email:any, login:any, isAuth:any) =>
         {userId, email, login, isAuth}  });
 export const errorAC = (error:any) => ({type: ERROR_MESSAGE, payload: {error}})
 export type AuthInitialStateType = {
-    userId: null,
+    userId: string,
     email: null,
     login: null,
     isAuth: boolean,
@@ -14,7 +14,7 @@ export type AuthInitialStateType = {
 
 
 let initialState:AuthInitialStateType = {
-    userId: null,
+    userId: '',
     email: null,
     login: null,
     isAuth: false,
@@ -41,7 +41,7 @@ const authReducer = (state = initialState, action:any):AuthInitialStateType => {
 
 
 export const getAuthUserData = () => (dispatch:any) => {
-    authAPI.me()
+   return authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, login, email} = response.data.data;

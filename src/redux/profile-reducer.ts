@@ -12,7 +12,7 @@ type PostsDataType = {
 export type ProfileInitialStateType = {
     PostsData: Array<PostsDataType>,
     newPostText: string,
-    profile: null ,
+    profile: null,
     status: string
 }
 
@@ -68,7 +68,7 @@ const profileReducer = (state = initialState, action: ProfileActionTypes): Profi
                 newPostText: "",
                 PostsData: [...state.PostsData, newPost]
             };
-        case SET_STATUS:
+        case SET_STATUS:debugger;
             return {
                 ...state,
                 status: action.status
@@ -97,13 +97,13 @@ export const setStatus = (status: string): SetStatusActionType => ({
 });
 
 // Thunk Creators
-export const getUserProfile = (userId: number) => (dispatch: any) => {
+export const getUserProfile = (userId: string|null) => (dispatch: any) => {
     profileAPI.getProfile(userId).then(response => {
         dispatch(setUserProfile(response.data));
     });
 };
 
-export const getStatus = (userId: number) => (dispatch: any) => {
+export const getStatus = (userId: string|null) => (dispatch: any) => {
     profileAPI.getStatus(userId)
         .then(response => {
             dispatch(setStatus(response.data));

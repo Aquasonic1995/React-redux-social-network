@@ -1,19 +1,35 @@
 import React from 'react';
 import Header from "./Header";
 import {connect} from "react-redux";
-import {getAuthUserData, logout} from "../../redux/auth-reducer";
-class HeaderContainer extends React.Component<any,any> {
-    componentDidMount() {
-        this.props.getAuthUserData();
-    }
+import {logout} from "../../redux/auth-reducer";
+import Dialogs from "../Dialogs/Dialogs";
+import {RootStateType} from "../../redux/redux-store";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
-    render() {
-        return <Header {...this.props} />
-    }
-}
-const mapStateToProps = (state:any) => ({
-    isAuth: state.auth.isAuth,
+type MapStateToPropsType = {
+    login: null
+};
+type MapDispatchToPropsType = {
+    logout: (dispatch:any) => void;
+};
+type PropsFromHOC = {
+    isAuth: boolean;
+};
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
     login: state.auth.login,
 });
 
-export default connect(mapStateToProps, {getAuthUserData, logout})(HeaderContainer);
+
+
+
+const connector = connect(mapStateToProps, {logout});
+type HeaderProps = MapDispatchToPropsType & MapStateToPropsType & PropsFromHOC;
+
+const HeaderContainer: React.FC<HeaderProps> = (props) => {
+    return <Header {...props} />;
+};
+export default compose(
+    connector,
+    withAuthRedirect
+)(HeaderContainer);

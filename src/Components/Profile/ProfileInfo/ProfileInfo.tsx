@@ -3,6 +3,11 @@ import s from "./ProfileInfo.module.css"
 import beach from "../../../images/beach.jpg"
 import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus"
+type Props = {
+    profile:null,
+    status:string,
+    updateStatus:any;
+}
 const ProfileInfo = (props:any) => {
     if (!props.profile) {
         return <Preloader />
@@ -14,7 +19,8 @@ const ProfileInfo = (props:any) => {
         <div className={s.avatar}>
             <img src={props.profile.photos.large} />
             Avatar</div>
-          <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+          <div className={s.status}> <ProfileStatus  status={props.status  } updateStatus={props.updateStatus}/> </div>
+
       </div>
   )
 }
